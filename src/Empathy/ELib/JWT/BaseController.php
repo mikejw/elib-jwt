@@ -2,7 +2,7 @@
 
 
 namespace Empathy\ELib\JWT;
-use Empathy\MVC\Controller as Controller;
+use Empathy\ELib\AuthedController as Controller;
 use Empathy\MVC\Config;
 use Exception;
 use Firebase\JWT\JWT;
@@ -41,7 +41,7 @@ class BaseController extends Controller
     }
 
     private function auth() {
-        header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Accept, Authorization, X-Request-With');
+        header('Access-Control-Allow-Headers: Origin,Content-Type,X-Auth-Token,Accept,Authorization,X-Request-With');
         header('Content-type: application/json');
 
         $data = json_decode(file_get_contents('php://input'), true);
@@ -59,32 +59,36 @@ class BaseController extends Controller
     }
 
     private function info() {
-        header('Access-Control-Allow-Origin: http://127.0.0.1:4200');
-        header('Access-Control-Allow-Headers: Origin, Content-Type,Accept,Authorization ');
+        header('Access-Control-Allow-Headers: Origin,Content-Type,Accept,Authorization');
         header('Content-type: application/json');
 
         $request_headers = apache_request_headers();
-        if (isset($request_headers['Authorization'])) {
 
+        $auth_header = '';
+
+        if (isset($request_headers['Authorization'])) {
             $auth_header = $request_headers['Authorization'];
-            if ($auth_header
-                &&
-                preg_match('#Bearer\s(\S+)#', $auth_header, $matches)) {
+        } elseif (isset($request_headers['authorization'])) {
+            $auth_header = $request_headers['authorization'];
+        }
+        
+        if ($auth_header) {
+            if (preg_match('#Bearer\s(\S+)#', $auth_header, $matches)) {
                 $bearer = $matches[1];
             }
 
             if ($bearer) {
                 try {
                     $token = JWT::decode($bearer, 'secret_server_key', ['HS256']);
-
-                    echo json_encode(array('user_name' => 'admin'));
                 } catch (Exception $e) {
-
-                    echo $e->getMessage();
-                    //header("HTTP/1.1 401 Unauthorized");
+                    header("HTTP/1.1 401 Unauthorized");
                     exit;
                 }
             }
+        } else {
+            header("HTTP/1.1 401 Unauthorized");
+            echo 'no token';
+            exit;
         }
         return false;
     }
