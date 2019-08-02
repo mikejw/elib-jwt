@@ -1,0 +1,24 @@
+{
+    "name": "mikejw/elib-jwt",
+    "type": "library",
+    "description": "JWT Support for empathy",
+    "keywords": [
+        "lib"
+    ],
+    "homepage": "http://empathyphp.co.uk",
+    "license": "GPL-3.0-only",
+    "authors": [
+        {
+            "name": "Mike Whiting",
+            "email": "mikejw3@gmail.com"
+        }
+    ],
+    "require": {
+        "mikejw/elib-base": "dev-develop"
+    },
+    "autoload": {
+        "psr-0": {
+            "Empathy": "src/"
+        }
+    }
+}
