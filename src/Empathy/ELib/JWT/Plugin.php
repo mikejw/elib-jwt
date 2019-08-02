@@ -21,7 +21,7 @@ namespace Empathy\ELib\JWT {
         
         public function onPreDispatch()
         {
-            echo 'pre-dispatch...';
+            //echo 'pre-dispatch...';
         }
     }
 }
