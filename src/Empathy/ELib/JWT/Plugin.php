@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Empathy\ELib\JWT\Plugin {
+namespace Empathy\ELib\JWT {
 
     use Empathy\MVC\Config;
 
