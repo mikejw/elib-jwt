@@ -15,7 +15,7 @@
     ],
     "require": {
         "mikejw/elib-base": "dev-master",
-        "firebase/php-jwt": "dev-master"
+        "firebase/php-jwt": "dev-main"
     },
     "autoload": {
         "psr-0": {
