@@ -28,7 +28,7 @@ class Service
         return $jwt;
     }
 
-    public function tryAuthenticate ()
+    public function tryAuthenticate()
     {
         $token = null;
         $request_headers = apache_request_headers();
