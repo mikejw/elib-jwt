@@ -1,13 +1,21 @@
 
 
-JWT Support for Empathy Applications
+elib-jwt
 ---
 
-Add and configure plugin by adding to your global `config.yml` file.  
+JWT Support for Empathy Applications using https://github.com/firebase/php-jwt.
+
+This extension depends on https://github.com/mikejw/elib-base.
+
+The `JWT` service will automatically be enabled for your application. 
+(See `services.php`).
 
 
-    plugins:
-    ...
-      -
-        name: Empathy\ELib\JWT\Plugin
-        config: '{ "auth_module": "feeds", "auth_class": "feeds", "auth_method": "auth" }'
+The two methods available with this extension are:
+
+    $token = DI::getContainer()->get('JWT')->generate();
+
+and
+
+    $token = DI::getContainer()->get('JWT')->tryAuthenticate();
+
