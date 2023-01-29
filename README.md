@@ -1,7 +1,7 @@
 
 
-elib-jwt
----
+Empathy PHP Framework - ELib-JWT
+===
 
 JWT Support for Empathy Applications using https://github.com/firebase/php-jwt.
 
