@@ -12,7 +12,7 @@ MIT license.  See [LICENSE](./LICENSE).
 
 JWT Support for Empathy Applications using https://github.com/firebase/php-jwt.
 
-This extension depends on https://github.com/mikejw/elib-base.
+This extension depends on [elib-base](/docs/elib-base/).
 
 The `JWT` service will automatically be enabled for your application. 
 (See `services.php`).
@@ -20,9 +20,13 @@ The `JWT` service will automatically be enabled for your application.
 
 The two methods available with this extension are:
 
-    $token = DI::getContainer()->get('JWT')->generate();
+<pre><code class="lang-php">&lt;php
+$token = DI::getContainer()->get('JWT')->generate();
+</code></pre>
 
 and
 
-    $token = DI::getContainer()->get('JWT')->tryAuthenticate();
+<pre><code class="lang-php">&lt;php
+$token = DI::getContainer()->get('JWT')->tryAuthenticate();
+</code></pre>
 
