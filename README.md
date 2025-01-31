@@ -3,13 +3,6 @@
 Empathy PHP Framework - ELib-JWT
 ===
 
-
-Licence
----
-Empathy and officially released extension libraries are now distributed under an
-MIT license.  See [LICENSE](./LICENSE).
-
-
 JWT Support for Empathy Applications using https://github.com/firebase/php-jwt.
 
 This extension depends on [elib-base](/docs/elib-base/).
@@ -30,3 +23,8 @@ and
 $token = DI::getContainer()->get('JWT')->tryAuthenticate();
 </code></pre>
 
+
+Licence
+---
+Empathy and officially released extension libraries are now distributed under an
+MIT license.  See [LICENSE](./LICENSE).
