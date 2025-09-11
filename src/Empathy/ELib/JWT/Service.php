@@ -6,6 +6,7 @@ use Firebase\JWT\JWT;
 use Empathy\ELib\Config;
 use Empathy\MVC\DI;
 use Empathy\MVC\RequestException;
+use Empathy\MVC\Config as EConfig;
 
 
 class Service
@@ -21,10 +22,22 @@ class Service
 
 	public function generate()
     {
+        $now = time();
+        $ttl = 3600;
+        $iss = (\Empathy\MVC\Util\Misc::isSecure() ? 'https' : 'http') . '://' . EConfig::get('WEB_ROOT');
+        $aud = str_replace('/', '-', EConfig::get('NAME'));
+
         $user = DI::getContainer()->get('CurrentUser')->getUser();
-        $token = array();
-        $token['user_id'] = $user->id;
-        $jwt = JWT::encode($token, $this->secret, 'HS256');
+        $payload = [
+            'sub' => (string)$user->id,
+            'iss' => $iss,
+            'aud' => $aud,
+            'iat' => $now,
+            'nbf' => $now,
+            'exp' => $now + $ttl,
+            'user_id' => (int)$user->id
+        ];
+        $jwt = JWT::encode($payload, $this->secret, 'HS256');
         return $jwt;
     }
 
