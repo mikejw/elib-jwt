@@ -46,6 +46,7 @@ class Service
         $token = null;
         $request_headers = apache_request_headers();
         $auth_header = '';
+        $bearer = '';
 
         if (isset($request_headers['Authorization'])) {
             $auth_header = $request_headers['Authorization'];
