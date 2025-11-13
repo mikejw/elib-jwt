@@ -41,28 +41,30 @@ class Service
         return $jwt;
     }
 
-    public function tryAuthenticate()
+    public function tryAuthenticate($bearer = '')
     {
         $token = null;
-        $request_headers = apache_request_headers();
         $auth_header = '';
-        $bearer = '';
 
-        if (isset($request_headers['Authorization'])) {
-            $auth_header = $request_headers['Authorization'];
-        } elseif (isset($request_headers['authorization'])) {
-            $auth_header = $request_headers['authorization'];
-        }
-        if ($auth_header) {
-            if (preg_match('#Bearer\s(\S+)#', $auth_header, $matches)) {
-                $bearer = $matches[1];
+        if (!$bearer) {
+            $request_headers = apache_request_headers();
+
+            if (isset($request_headers['Authorization'])) {
+                $auth_header = $request_headers['Authorization'];
+            } elseif (isset($request_headers['authorization'])) {
+                $auth_header = $request_headers['authorization'];
             }
-            if ($bearer) {
-                try {
-                    $token = JWT::decode($bearer, new Key($this->secret, 'HS256')); 
-                } catch (Exception $e) {
-                    throw new RequestException('Not authenticated', RequestException::NOT_AUTHENTICATED);
+            if ($auth_header) {
+                if (preg_match('#Bearer\s(\S+)#', $auth_header, $matches)) {
+                    $bearer = $matches[1];
                 }
+            }
+        }
+        if ($bearer) {
+            try {
+                $token = JWT::decode($bearer, new Key($this->secret, 'HS256'));
+            } catch (Exception $e) {
+                throw new RequestException('Not authenticated', RequestException::NOT_AUTHENTICATED);
             }
         }
         return $token;
