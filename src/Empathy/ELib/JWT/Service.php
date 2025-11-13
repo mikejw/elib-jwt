@@ -63,6 +63,9 @@ class Service
         if ($bearer) {
             try {
                 $token = JWT::decode($bearer, new Key($this->secret, 'HS256'));
+                if ($token !== null && is_object($token) && isset($token->user_id)) {
+                    DI::getContainer()->get('Stash')->store('bearerToken', $bearer);
+                }
             } catch (Exception $e) {
                 throw new RequestException('Not authenticated', RequestException::NOT_AUTHENTICATED);
             }
