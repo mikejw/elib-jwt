@@ -15,8 +15,9 @@ class Service
 
     public function __construct()
     {
-        if (($this->secret = Config::get('JWT_SECRET')) === false) {
-            throw new \Exception('No secret provided. Add to "elib.yml"');
+        $this->secret = getenv('ELIB_JWT_SECRET') ?? Config::get('JWT_SECRET');
+        if (!$this->secret) {
+            throw new \Exception('No secret provided.');
         }
     }
 
