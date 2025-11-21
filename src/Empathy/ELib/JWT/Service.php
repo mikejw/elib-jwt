@@ -15,7 +15,8 @@ class Service
 
     public function __construct()
     {
-        $this->secret = getenv('ELIB_JWT_SECRET') ?? Config::get('JWT_SECRET');
+        $secret = getenv('ELIB_JWT_SECRET');
+        $this->secret = $secret ? $secret : Config::get('JWT_SECRET');
         if (!$this->secret) {
             throw new \Exception('No secret provided.');
         }
