@@ -11,6 +11,8 @@ use Empathy\MVC\Config as EConfig;
 
 class Service
 {
+    public const DEFAULT_TTL = 3600;
+
     private $secret;
 
     public function __construct()
@@ -22,10 +24,32 @@ class Service
         }
     }
 
-	public function generate()
+    public function getTTL(?int $ttl = null): int
+    {
+        if ($ttl !== null) {
+            if ($ttl < 1) {
+                throw new \InvalidArgumentException('JWT TTL must be greater than zero.');
+            }
+
+            return $ttl;
+        }
+
+        $configured = getenv('ELIB_JWT_TTL');
+        if ($configured === false || $configured === '') {
+            $configured = Config::get('JWT_TTL');
+        }
+
+        if (is_numeric($configured) && (int) $configured > 0) {
+            return (int) $configured;
+        }
+
+        return self::DEFAULT_TTL;
+    }
+
+    public function generate(?int $ttl = null)
     {
         $now = time();
-        $ttl = 3600;
+        $ttl = $this->getTTL($ttl);
         $iss = (\Empathy\MVC\Util\Misc::isSecure() ? 'https' : 'http') . '://' . EConfig::get('WEB_ROOT');
         $aud = str_replace('/', '-', EConfig::get('NAME'));
 

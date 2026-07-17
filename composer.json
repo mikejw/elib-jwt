@@ -14,6 +14,7 @@
         }
     ],
     "require": {
+        "mikejw/elib-base": "^4.2.7",
         "firebase/php-jwt": "^6.0"
     },
     "autoload": {
